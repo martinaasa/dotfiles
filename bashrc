@@ -1,37 +1,44 @@
-##############################################################################
-#   Filename: .bashrc                                                        #
-# Maintainer: Michael J. Smalley <michaeljsmalley@gmail.com>                 #
-#        URL: http://github.com/michaeljsmalley/dotfiles                     #
-#                                                                            #
-#                                                                            #
-# Sections:                                                                  #
-#   01. General ................. General Bash behavior                      #
-#   02. Aliases ................. Aliases                                    #
-#   03. Theme/Colors ............ Colors, prompts, fonts, etc.               #
-##############################################################################
+# Path to the bash it configuration
+export BASH_IT="/home/martin/.bash-it"
 
-##############################################################################
-# 01. General                                                                #
-##############################################################################
-# Shell prompt
-export PS1="\n\[\e[0;36m\]┌─[\[\e[0m\]\[\e[1;33m\]\u\[\e[0m\]\[\e[1;36m\] @ \[\e[0m\]\[\e[1;33m\]\h\[\e[0m\]\[\e[0;36m\]]─[\[\e[0m\]\[\e[1;34m\]\w\[\e[0m\]\[\e[0;36m\]]\[\e[0;36m\]─[\[\e[0m\]\[\e[0;31m\]\t\[\e[0m\]\[\e[0;36m\]]\[\e[0m\]\n\[\e[0;36m\]└─[\[\e[0m\]\[\e[1;37m\]\$\[\e[0m\]\[\e[0;36m\]]› \[\e[0m\]"
+# Lock and Load a custom theme file
+# location /.bash_it/themes/
+export BASH_IT_THEME='bobby'
 
-# If fortune is installed, run a fortune
-if [ -e /opt/local/bin/fortune ]; then
-    fortune -so
-    echo " "
-fi
+# (Advanced): Change this to the name of your remote repo if you
+# cloned bash-it with a remote other than origin such as `bash-it`.
+# export BASH_IT_REMOTE='bash-it'
 
-##############################################################################
-# 02. Aliases                                                                #
-##############################################################################
-# Enable colors in "ls" command output
-alias ls="ls -Glah"
+# Your place for hosting Git repos. I use this for private repos.
+#export GIT_HOSTING='git@git.domain.com'
 
-##############################################################################
-# 03. Theme/Colors                                                           #
-##############################################################################
-# CLI Colors
-export CLICOLOR=1
-# Set "ls" colors
-export LSCOLORS=Gxfxcxdxbxegedabagacad
+# Don't check mail when opening terminal.
+unset MAILCHECK
+
+# Change this to your console based IRC client of choice.
+#export IRC_CLIENT='irssi'
+
+# Set this to the command you use for todo.txt-cli
+#export TODO="t"
+
+# Set this to false to turn off version control status checking within the prompt for all themes
+export SCM_CHECK=true
+
+# Set Xterm/screen/Tmux title with only a short hostname.
+# Uncomment this (or set SHORT_HOSTNAME to something else),
+# Will otherwise fall back on $HOSTNAME.
+#export SHORT_HOSTNAME=$(hostname -s)
+
+# Set vcprompt executable path for scm advance info in prompt (demula theme)
+# https://github.com/djl/vcprompt
+#export VCPROMPT_EXECUTABLE=~/.vcprompt/bin/vcprompt
+
+# (Advanced): Uncomment this to make Bash-it reload itself automatically
+# after enabling or disabling aliases, plugins, and completions.
+# export BASH_IT_AUTOMATIC_RELOAD_AFTER_CONFIG_CHANGE=1
+
+# Load Bash It
+source $BASH_IT/bash_it.sh
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

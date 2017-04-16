@@ -34,6 +34,9 @@ install_bash_it () {
     # Clone Bash-it repository from GitHub only if it isn't already present
     if [[ ! -d $dir/bash-it/ ]]; then
         git clone --depth=1 https://github.com/Bash-it/bash-it.git
+        chmod +x $dir/bash-it/install.sh
+        /bin/sh $dir/bash-it/install.sh -i -n
     fi
 }
+
 install_bash_it
