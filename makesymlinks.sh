@@ -8,7 +8,7 @@
 
 dir=~/dotfiles                    # dotfiles directory
 olddir=~/dotfiles_old             # old dotfiles backup directory
-files="bashrc vimrc bash-it"    # list of files/folders to symlink in homedir
+files="bashrc vimrc bash-it gitconfig"    # list of files/folders to symlink in homedir
 
 ##########
 
@@ -40,3 +40,9 @@ install_bash_it () {
 }
 
 install_bash_it
+
+# setup custom aliases
+if [[ -d $dir/bash-it/ ]]; then
+    ln -s $dir/aliases $dir/bash-it/aliases/custom.aliases.bash
+    echo "Creating symlink for custom Bash-it aliases."
+fi

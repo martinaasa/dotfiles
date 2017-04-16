@@ -1,0 +1,28 @@
+#!/bin/bash
+#
+# -binaryanomaly
+
+cite 'about-alias'
+about-alias 'Custom aliases'
+
+# apt alias
+function _set_pkg_aliases()
+{
+	if [ -x $(which apt) ]; then
+		alias apts='apt-cache search'
+		alias aptshow='apt-cache show'
+		alias aptinst='sudo apt install -V'
+		alias aptupd='sudo apt update'
+		alias aptupg='sudo apt dist-upgrade -V && sudo apt autoremove'
+		alias aptupgd='sudo apt update && sudo apt dist-upgrade -V && sudo apt autoremove'
+		alias aptrm='sudo apt remove'
+		alias aptpurge='sudo apt remove --purge'
+
+		alias chkup='/usr/lib/update-notifier/apt-check -p --human-readable'
+		alias chkboot='cat /var/run/reboot-required'
+
+		alias pkgfiles='dpkg --listfiles'
+	fi
+}
+
+_set_pkg_aliases
