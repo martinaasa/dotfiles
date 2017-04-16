@@ -26,3 +26,7 @@ function _set_pkg_aliases()
 }
 
 _set_pkg_aliases
+
+# other
+
+alias neofetch='neofetch --config $HOME/.neofetch'
