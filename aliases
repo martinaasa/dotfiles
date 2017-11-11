@@ -25,8 +25,25 @@ function _set_pkg_aliases()
 	fi
 }
 
+# neofetch alias
+function _set_neofetch_aliases()
+{
+	if [-x $(which neofetch)]; then
+		alias neofetch='neofetch --config $HOME/.neofetch'
+	fi
+}
+
+# atom alias
+function _set_atom_aliases()
+{
+	if [-x $(which atom-beta)] && ![-x $(which atom]; then
+		alias atom='atom-beta'
+	fi
+}
+
+
+
 _set_pkg_aliases
+_set_neofetch_aliases
 
 # other
-
-alias neofetch='neofetch --config $HOME/.neofetch'
