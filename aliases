@@ -45,5 +45,6 @@ function _set_atom_aliases()
 
 _set_pkg_aliases
 _set_neofetch_aliases
+_set_atom_aliases
 
 # other
