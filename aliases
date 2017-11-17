@@ -33,16 +33,6 @@ function _set_neofetch_aliases()
 	fi
 }
 
-# atom alias
-function _set_atom_aliases()
-{
-	if [-x $(which atom-beta)] && ![-x $(which atom]; then
-		alias atom='atom-beta'
-	fi
-}
-
-
-
 _set_pkg_aliases
 _set_neofetch_aliases
 
