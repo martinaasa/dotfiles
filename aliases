@@ -28,7 +28,7 @@ function _set_pkg_aliases()
 # neofetch alias
 function _set_neofetch_aliases()
 {
-	if [-x $(which neofetch)]; then
+	if [ -x $(which neofetch) ]; then
 		alias neofetch='neofetch --config $HOME/.neofetch'
 	fi
 }
