@@ -5,16 +5,24 @@
 cite 'about-alias'
 about-alias 'Custom aliases'
 
-# apt alias
+# apt alias (also update flatpak)
 function _set_pkg_aliases()
 {
 	if [ -x $(which apt) ]; then
 		alias apts='apt-cache search'
 		alias aptshow='apt-cache show'
 		alias aptinst='sudo apt install -V'
-		alias aptupd='sudo apt update'
-		alias aptupg='sudo apt dist-upgrade -V && sudo apt autoremove'
-		alias aptupgd='sudo apt update && sudo apt dist-upgrade -V && sudo apt autoremove'
+
+		if [ -x $(which flatpak) ]; then
+			alias aptupd='sudo apt update && flatpak update'
+			alias aptupg='sudo apt dist-upgrade -V && sudo apt autoremove && flatpak update'
+			alias aptupgd='sudo apt update && sudo apt dist-upgrade -V && sudo apt autoremove && flatpak update'
+		else
+			alias aptupd='sudo apt update'
+			alias aptupg='sudo apt dist-upgrade -V && sudo apt autoremove'
+			alias aptupgd='sudo apt update && sudo apt dist-upgrade -V && sudo apt autoremove'
+		fi
+
 		alias aptrm='sudo apt remove'
 		alias aptpurge='sudo apt remove --purge'
 
