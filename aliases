@@ -8,12 +8,12 @@ about-alias 'Custom aliases'
 # apt alias (also update flatpak)
 function _set_pkg_aliases()
 {
-	if [ -x $(which apt) ]; then
+	if [ -x "$(command -v apt)" ]; then
 		alias apts='apt-cache search'
 		alias aptshow='apt-cache show'
 		alias aptinst='sudo apt install -V'
 
-		if [ -x $(which flatpak) ]; then
+		if [ -x "$(command -v flatpak)" ]; then
 			alias aptupd='sudo apt update && flatpak update'
 			alias aptupg='sudo apt dist-upgrade -V && sudo apt autoremove && flatpak update'
 			alias aptupgd='sudo apt update && sudo apt dist-upgrade -V && sudo apt autoremove && flatpak update'
@@ -36,7 +36,7 @@ function _set_pkg_aliases()
 # neofetch alias
 function _set_neofetch_aliases()
 {
-	if [ -x $(which neofetch) ]; then
+	if [ -x "$(command -v neofetch)" ]; then
 		alias neofetch='neofetch --config $HOME/.neofetch'
 	fi
 }
