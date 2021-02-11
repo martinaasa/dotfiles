@@ -16,7 +16,7 @@ function _set_pkg_aliases()
 		if [ -x "$(command -v flatpak)" ]; then
 			alias aptupd='sudo apt update && update flatpak update -y'
 			alias aptupg='sudo apt dist-upgrade -V && sudo apt autoremove && sudo flatpak update -y'
-			alias aptupgd='sudo apt update && sudo apt dist-upgrade -V && sudo apt autoremove && sudo flatpak update -y'
+			alias aptupgd='sudo apt update && sudo apt dist-upgrade -V && sudo apt autoremove && sudo flatpak uninstall --unused -y && sudo flatpak update -y'
 		else
 			alias aptupd='sudo apt update'
 			alias aptupg='sudo apt dist-upgrade -V && sudo apt autoremove'
