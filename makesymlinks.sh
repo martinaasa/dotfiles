@@ -35,7 +35,7 @@ install_bash_it () {
   if [[ ! -d $dir/bash-it/ ]]; then
     git clone --depth=1 https://github.com/Bash-it/bash-it.git
     chmod +x $dir/bash-it/install.sh
-    /bin/sh $dir/bash-it/install.sh -i -n
+    /bin/bash $dir/bash-it/install.sh -i -n
   fi
 }
 
