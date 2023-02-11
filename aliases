@@ -8,7 +8,29 @@ about-alias 'Custom aliases'
 # apt alias (also update flatpak)
 function _set_pkg_aliases()
 {
-	if [ -x "$(command -v apt)" ]; then
+	if [ -x "$(command -v nala)" ]; then
+		alias apts='nala search'
+		alias aptshow='nala show'
+		alias aptinst='sudo nala install -V'
+
+		if [ -x "$(command -v flatpak)" ]; then
+			alias aptupd='sudo nala update && update flatpak update -y'
+			alias aptupg='sudo nala upgrade -V && sudo nala autoremove && sudo flatpak update -y'
+			alias aptupgd='sudo nala update && sudo nala upgrade -V && sudo nala autoremove && sudo flatpak uninstall --unused -y && sudo flatpak update -y'
+		else
+			alias aptupd='sudo nala update'
+			alias aptupg='sudo nala upgrade -V && sudo nala autoremove'
+			alias aptupgd='sudo nala update && sudo nala upgrade -V && sudo nala autoremove'
+		fi
+
+		alias aptrm='sudo nala remove'
+		alias aptpurge='sudo nala remove --purge'
+
+		alias chkup='/usr/lib/update-notifier/nala-check -p --human-readable'
+		alias chkboot='cat /var/run/reboot-required'
+
+		alias pkgfiles='nala list-files'
+	elif [ -x "$(command -v apt)" ]; then
 		alias apts='apt-cache search'
 		alias aptshow='apt-cache show'
 		alias aptinst='sudo apt install -V'
