@@ -7,7 +7,7 @@ case $- in
 esac
 
 # Path to the bash it configuration
-export BASH_IT="/home/martin/.dotfiles/bash-it"
+export BASH_IT="$HOME/.dotfiles/bash-it"
 
 # Lock and Load a custom theme file.
 # Leave empty to disable theming.
@@ -19,13 +19,13 @@ export BASH_IT_THEME='bobby'
 # export BASH_IT_REMOTE='bash-it'
 
 # Your place for hosting Git repos. I use this for private repos.
-export GIT_HOSTING='git@git.domain.com'
+#export GIT_HOSTING='git@git.domain.com'
 
 # Don't check mail when opening terminal.
 unset MAILCHECK
 
 # Change this to your console based IRC client of choice.
-export IRC_CLIENT='irssi'
+#export IRC_CLIENT='irssi'
 
 # Set this to the command you use for todo.txt-cli
 export TODO="t"
