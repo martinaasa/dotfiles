@@ -15,12 +15,12 @@ function _set_pkg_aliases()
 
 		if [ -x "$(command -v flatpak)" ]; then
 			alias aptupd='sudo nala update && update flatpak update -y'
-			alias aptupg='sudo nala upgrade -V && sudo nala autoremove && sudo flatpak update -y'
-			alias aptupgd='sudo nala update && sudo nala upgrade -V && sudo nala autoremove && sudo flatpak uninstall --unused -y && sudo flatpak update -y'
+			alias aptupg='sudo nala upgrade && sudo nala autoremove && sudo flatpak update -y'
+			alias aptupgd='sudo nala update && sudo nala upgrade && sudo nala autoremove && sudo flatpak uninstall --unused -y && sudo flatpak update -y'
 		else
 			alias aptupd='sudo nala update'
-			alias aptupg='sudo nala upgrade -V && sudo nala autoremove'
-			alias aptupgd='sudo nala update && sudo nala upgrade -V && sudo nala autoremove'
+			alias aptupg='sudo nala upgrade && sudo nala autoremove'
+			alias aptupgd='sudo nala update && sudo nala upgrade && sudo nala autoremove'
 		fi
 
 		alias aptrm='sudo nala remove'
