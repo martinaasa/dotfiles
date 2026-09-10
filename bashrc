@@ -6,6 +6,13 @@ case $- in
     *) return;;
 esac
 
+# GNU grep 3.8+ warns about the obsolete GREP_COLOR variable. Preserve its
+# setting using the supported GREP_COLORS syntax if it is inherited.
+if [[ -v GREP_COLOR ]]; then
+  export GREP_COLORS="${GREP_COLORS:-mt=${GREP_COLOR}}"
+  unset GREP_COLOR
+fi
+
 # Path to the bash it configuration
 export BASH_IT="$HOME/.dotfiles/bash-it"
 
