@@ -26,3 +26,37 @@ git clone https://github.com/martinaasa/dotfiles ~/.dotfiles
 cd ~/.dotfiles
 ./makesymlinks.sh
 ```
+
+Shell configuration
+-------------------
+
+`~/.shellenv`, `~/.profile`, and `~/.bashrc` link to this repository. The shared
+POSIX environment adds existing `~/bin` and `~/.local/bin` directories once.
+Both login shells and interactive Bash load it; ordinary scripts inherit PATH.
+An already duplicated inherited PATH is not rewritten; use a fresh login after
+migrating. Bash-it is loaded only when its entrypoint is readable.
+
+Keep host-specific Bash settings in `~/.bashrc.local` (loaded before Bash-it,
+so it can override `BASH_IT` and `BASH_IT_THEME`). Login-only settings belong in
+`~/.profile.local`. These files live outside the repository. If you have a
+`~/.bash_profile` or `~/.bash_login`, make it source `~/.profile`.
+
+To install only the shell configuration:
+
+```bash
+./makesymlinks.sh --shell-only
+```
+
+Installation preserves replaced files under a unique `~/.dotfiles_old/install.*`
+directory and skips links already pointing to the expected target. Inspect the
+backups and move any additional host customizations to the local files above.
+The repository must remain at `~/.dotfiles`.
+
+`bash-it.version` pins Bash-it to the revision used by this host;
+`bash-it.enabled` records the enabled component symlinks. A fresh installation
+clones that revision and restores the baseline plus the custom aliases.
+Existing additional components are retained. Existing Bash-it checkouts with a
+different revision or tracked modifications cause installation to stop rather
+than overwrite them. To upgrade, review and test the new revision, then update
+the pin and component manifest together. The pin ensures reproducibility; it
+is not a claim that this older version is the latest available.

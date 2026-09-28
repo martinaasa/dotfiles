@@ -1,48 +1,67 @@
-#!/bin/bash
-############################
-# .make.sh
-# This script creates symlinks from the home directory to any desired dotfiles in ~/dotfiles
-############################
+#!/usr/bin/env bash
+set -euo pipefail
 
-########## Variables
+# The runtime configuration expects this documented installation location.
+dir="$HOME/.dotfiles"
+if [[ "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)" != "$(cd -- "$dir" && pwd -P)" ]]; then
+    echo 'Install this repository at ~/.dotfiles first.' >&2
+    exit 1
+fi
+case "${1-}" in
+    '') files=(shellenv profile bashrc vimrc bash-it gitconfig neofetch) ;;
+    --shell-only) files=(shellenv profile bashrc bash-it) ;;
+    *) echo "Usage: $0 [--shell-only]" >&2; exit 2 ;;
+esac
 
-dir=~/.dotfiles                    # dotfiles directory
-olddir=~/.dotfiles_old             # old dotfiles backup directory
-files="bashrc vimrc bash-it gitconfig neofetch"    # list of files/folders to symlink in homedir
-
-##########
-
-# create dotfiles_old in homedir
-echo -n "Creating $olddir for backup of any existing dotfiles in ~ ..."
-mkdir -p $olddir
-echo "done"
-
-# change to the dotfiles directory
-echo -n "Changing to the $dir directory ..."
-cd $dir
-echo "done"
-
-# move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks from the homedir to any files in the ~/dotfiles directory specified in $files
-for file in $files; do
-  echo "Moving any existing dotfiles from ~ to $olddir"
-  mv ~/.$file $olddir
-  echo "Creating symlink to $file in home directory."
-  ln -s $dir/$file ~/.$file
-done
-
-install_bash_it () {
-  # Clone Bash-it repository from GitHub only if it isn't already present
-  if [[ ! -d $dir/bash-it/ ]]; then
-    git clone --depth=1 https://github.com/Bash-it/bash-it.git
-    chmod +x $dir/bash-it/install.sh
-    /bin/bash $dir/bash-it/install.sh -i -n
-  fi
+backup_dir=''
+backup() {
+    if [[ -z "$backup_dir" ]]; then
+        mkdir -p "$HOME/.dotfiles_old"
+        backup_dir=$(mktemp -d "$HOME/.dotfiles_old/install.XXXXXXXX")
+        echo "Backup: $backup_dir"
+    fi
+    mv -- "$1" "$backup_dir/$2"
+}
+link_file() {
+    local source=$1 target=$2 label=$3
+    if [[ -L "$target" && "$(readlink -- "$target")" == "$source" ]]; then
+        return
+    fi
+    if [[ -e "$target" || -L "$target" ]]; then
+        backup "$target" "$label"
+    fi
+    ln -s -- "$source" "$target"
 }
 
-install_bash_it
+read -r version < "$dir/bash-it.version"
+if [[ ! -e "$dir/bash-it" ]]; then
+    git clone --no-checkout https://github.com/Bash-it/bash-it.git "$dir/bash-it"
+    git -C "$dir/bash-it" checkout --detach "$version"
+fi
+if [[ "$(git -C "$dir/bash-it" rev-parse HEAD)" != "$version" ]]; then
+    echo 'Bash-it differs from bash-it.version; reconcile it before installing.' >&2
+    exit 1
+fi
+if [[ -n "$(git -C "$dir/bash-it" status --porcelain --untracked-files=no)" ]]; then
+    echo 'Bash-it has tracked local changes; preserve them before installing.' >&2
+    exit 1
+fi
 
-# setup custom aliases
-if [[ -d $dir/bash-it/ ]]; then
-  ln -s $dir/aliases $dir/bash-it/aliases/custom.aliases.bash
-  echo "Creating symlink for custom Bash-it aliases."
+# Keep existing host additions; restore the versioned baseline on new hosts.
+mkdir -p "$dir/bash-it/enabled"
+while read -r name target; do
+    [[ -n "$name" ]] || continue
+    if [[ ! -f "$dir/bash-it/enabled/$target" ]]; then
+        echo "Missing Bash-it component: $target" >&2
+        exit 1
+    fi
+    link_file "$target" "$dir/bash-it/enabled/$name" "bash-it-$name"
+done < "$dir/bash-it.enabled"
+link_file "$dir/aliases" "$dir/bash-it/aliases/custom.aliases.bash" bash-it-custom-aliases
+
+for file in "${files[@]}"; do
+    link_file "$dir/$file" "$HOME/.$file" "$file"
+done
+if [[ -e "$HOME/.bash_profile" || -e "$HOME/.bash_login" ]]; then
+    echo 'A Bash login file overrides ~/.profile; ensure it sources ~/.profile.' >&2
 fi

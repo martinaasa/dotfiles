@@ -1,0 +1,11 @@
+# Shared POSIX-compatible environment; safe to source repeatedly.
+for _dotfiles_bin in "$HOME/bin" "$HOME/.local/bin"; do
+    if [ -d "$_dotfiles_bin" ]; then
+        case ":${PATH-}:" in
+            *:"$_dotfiles_bin":*) ;;
+            *) PATH="$_dotfiles_bin${PATH:+:$PATH}" ;;
+        esac
+    fi
+done
+unset _dotfiles_bin
+export PATH

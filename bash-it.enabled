@@ -1,0 +1,16 @@
+150---fuck.aliases.bash ../aliases/available/fuck.aliases.bash
+150---general.aliases.bash ../aliases/available/general.aliases.bash
+150---git.aliases.bash ../aliases/available/git.aliases.bash
+150---vim.aliases.bash ../aliases/available/vim.aliases.bash
+250---base.plugin.bash ../plugins/available/base.plugin.bash
+250---explain.plugin.bash ../plugins/available/explain.plugin.bash
+250---extract.plugin.bash ../plugins/available/extract.plugin.bash
+250---git.plugin.bash ../plugins/available/git.plugin.bash
+250---man.plugin.bash ../plugins/available/man.plugin.bash
+250---xterm.plugin.bash ../plugins/available/xterm.plugin.bash
+350---bash-it.completion.bash ../completion/available/bash-it.completion.bash
+350---defaults.completion.bash ../completion/available/defaults.completion.bash
+350---git.completion.bash ../completion/available/git.completion.bash
+350---ssh.completion.bash ../completion/available/ssh.completion.bash
+350---system.completion.bash ../completion/available/system.completion.bash
+365---alias-completion.plugin.bash ../plugins/available/alias-completion.plugin.bash

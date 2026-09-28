@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+[ -r "$HOME/.shellenv" ] && . "$HOME/.shellenv"
+
 # If not running interactively, don't do anything
 case $- in
   *i*) ;;
@@ -65,5 +67,10 @@ export SCM_CHECK=true
 # Uncomment this to make Bash-it create alias reload.
 # export BASH_IT_RELOAD_LEGACY=1
 
-# Load Bash It
-source "$BASH_IT"/bash_it.sh
+# Optional host settings (including Bash-it overrides).
+[ -r "$HOME/.bashrc.local" ] && . "$HOME/.bashrc.local"
+
+# Load Bash It when installed.
+if [ -r "$BASH_IT/bash_it.sh" ]; then
+    . "$BASH_IT/bash_it.sh"
+fi
