@@ -29,7 +29,7 @@ print_info() {
     info "Memory" memory
 
     info "CPU Usage" cpu_usage
-    # info "Disk" disk
+    info "Disk" disk
     info "Battery" battery
      info "Font" font
     # info "Song" song
@@ -708,3 +708,8 @@ image_host="teknik"
 # NOTE: Don't change this value, neofetch reads this to determine
 # how to handle backwards compatibility.
 config_version="3.0.1"
+
+# Optional host-specific settings, kept outside the repository.
+if [ -r "$HOME/.neofetch.local" ]; then
+    . "$HOME/.neofetch.local"
+fi

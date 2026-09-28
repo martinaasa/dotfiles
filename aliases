@@ -14,7 +14,7 @@ function _set_pkg_aliases()
 		alias aptinst='sudo nala install -V'
 
 		if [ -x "$(command -v flatpak)" ]; then
-			alias aptupd='sudo nala update && update flatpak update -y'
+			alias aptupd='sudo nala update && sudo flatpak update -y'
 			alias aptupg='sudo nala upgrade && sudo nala autoremove && sudo flatpak update -y'
 			alias aptupgd='sudo nala update && sudo nala upgrade && sudo nala autoremove && sudo flatpak uninstall --unused -y && sudo flatpak update -y'
 		else
@@ -26,8 +26,10 @@ function _set_pkg_aliases()
 		alias aptrm='sudo nala remove'
 		alias aptpurge='sudo nala remove --purge'
 
-		alias chkup='/usr/lib/update-notifier/nala-check -p --human-readable'
-		alias chkboot='cat /var/run/reboot-required'
+		if [ -x /usr/lib/update-notifier/nala-check ]; then
+			alias chkup='/usr/lib/update-notifier/nala-check -p --human-readable'
+		fi
+		alias chkboot='if [ -r /var/run/reboot-required ]; then cat /var/run/reboot-required; fi'
 
 		alias pkgfiles='nala list-files'
 	elif [ -x "$(command -v apt)" ]; then
@@ -36,7 +38,7 @@ function _set_pkg_aliases()
 		alias aptinst='sudo apt install -V'
 
 		if [ -x "$(command -v flatpak)" ]; then
-			alias aptupd='sudo apt update && update flatpak update -y'
+			alias aptupd='sudo apt update && sudo flatpak update -y'
 			alias aptupg='sudo apt dist-upgrade -V && sudo apt autoremove && sudo flatpak update -y'
 			alias aptupgd='sudo apt update && sudo apt dist-upgrade -V && sudo apt autoremove && sudo flatpak update -y && flatpak uninstall --unused -y'
 		else
@@ -48,10 +50,14 @@ function _set_pkg_aliases()
 		alias aptrm='sudo apt remove'
 		alias aptpurge='sudo apt remove --purge'
 
-		alias chkup='/usr/lib/update-notifier/apt-check -p --human-readable'
-		alias chkboot='cat /var/run/reboot-required'
+		if [ -x /usr/lib/update-notifier/apt-check ]; then
+			alias chkup='/usr/lib/update-notifier/apt-check -p --human-readable'
+		fi
+		alias chkboot='if [ -r /var/run/reboot-required ]; then cat /var/run/reboot-required; fi'
 
-		alias pkgfiles='dpkg --listfiles'
+		if command -v dpkg >/dev/null 2>&1; then
+			alias pkgfiles='dpkg --listfiles'
+		fi
 	fi
 }
 
@@ -59,7 +65,7 @@ function _set_pkg_aliases()
 function _set_neofetch_aliases()
 {
 	if [ -x "$(command -v neofetch)" ]; then
-		alias neofetch='neofetch --config $HOME/.neofetch'
+		alias neofetch='neofetch --config "$HOME/.neofetch"'
 	fi
 }
 

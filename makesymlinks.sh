@@ -1,12 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# The runtime configuration expects this documented installation location.
-dir="$HOME/.dotfiles"
-if [[ "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)" != "$(cd -- "$dir" && pwd -P)" ]]; then
-    echo 'Install this repository at ~/.dotfiles first.' >&2
-    exit 1
-fi
+# Resolve the checkout location; home symlinks provide stable runtime paths.
+dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 case "${1-}" in
     '') files=(shellenv profile bashrc vimrc bash-it gitconfig neofetch) ;;
     --shell-only) files=(shellenv profile bashrc bash-it) ;;

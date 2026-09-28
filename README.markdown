@@ -1,7 +1,6 @@
 Dotfiles
 ========
-This repository includes all of my custom dotfiles.  They should be cloned to
-your home directory so that the path is `~/.dotfiles/`.  The included setup
+This repository includes all of my custom dotfiles.  They can be cloned anywhere; `~/.dotfiles/` is the default location.  The included setup
 script creates symlinks from your home directory to the files which are located
 in `~/.dotfiles/`.
 
@@ -50,9 +49,11 @@ To install only the shell configuration:
 Installation preserves replaced files under a unique `~/.dotfiles_old/install.*`
 directory and skips links already pointing to the expected target. Inspect the
 backups and move any additional host customizations to the local files above.
-The repository must remain at `~/.dotfiles`.
+The installer resolves its checkout directory and creates absolute symlinks.
+After moving the checkout, rerun the installer. `BASH_IT` defaults to
+`~/.bash-it`; an exported value or `~/.bashrc.local` can override it.
 
-`bash-it.version` pins Bash-it to the revision used by this host;
+`bash-it.version` pins Bash-it to a shared baseline revision;
 `bash-it.enabled` records the enabled component symlinks. A fresh installation
 clones that revision and restores the baseline plus the custom aliases.
 Existing additional components are retained. Existing Bash-it checkouts with a
@@ -60,3 +61,19 @@ different revision or tracked modifications cause installation to stop rather
 than overwrite them. To upgrade, review and test the new revision, then update
 the pin and component manifest together. The pin ensures reproducibility; it
 is not a claim that this older version is the latest available.
+
+Neofetch host settings
+----------------------
+
+Disk display defaults to `/`. Put additional host settings in
+`~/.neofetch.local`, which is loaded after the shared configuration. For example:
+
+```bash
+if command -v mountpoint >/dev/null 2>&1 && mountpoint -q /mnt/tank; then
+    disk_show+=(/mnt/tank)
+fi
+```
+
+Package aliases are selected according to installed tools. Optional
+update-notifier helpers are enabled only when executable; a missing reboot
+marker is treated as no pending reboot notification.
