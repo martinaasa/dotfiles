@@ -56,9 +56,11 @@ After moving the checkout, rerun the installer. `BASH_IT` defaults to
 `bash-it.version` pins Bash-it to a shared baseline revision;
 `bash-it.enabled` records the enabled component symlinks. A fresh installation
 clones that revision and restores the baseline plus the custom aliases.
-Existing additional components are retained. Existing Bash-it checkouts with a
-different revision or tracked modifications cause installation to stop rather
-than overwrite them. To upgrade, review and test the new revision, then update
+Existing additional components are retained. When the Bash-it revision differs,
+the installer fetches the pinned revision if needed, backs up the entire old
+checkout (including ignored custom files), and switches to the pin without
+forcing checkout. Tracked local modifications cause installation to stop.
+Backups are stored in the same unique installation backup directory. To upgrade, review and test the new revision, then update
 the pin and component manifest together. The pin ensures reproducibility; it
 is not a claim that this older version is the latest available.
 
@@ -77,3 +79,21 @@ fi
 Package aliases are selected according to installed tools. Optional
 update-notifier helpers are enabled only when executable; a missing reboot
 marker is treated as no pending reboot notification.
+
+For an existing machine, pull the repository and run `./makesymlinks.sh --shell-only`.
+Review the backed-up profile for host settings to move into `~/.profile.local`.
+The shell installer does not update system packages or remove extra Bash-it
+components. Start a fresh login afterward. Bash startup supports Bash 3.2+
+(including the absence of `GREP_COLOR`); the shared environment uses POSIX syntax.
+
+Installer regression tests run offline with local Git fixtures:
+
+```bash
+python3 -m unittest discover -s tests -v
+```
+
+They cover fresh installation, repeated installation, migration with host
+additions and backups, refusal of tracked local changes, paths containing
+spaces, and environment loading in available POSIX shells. These tests exercise
+the installer with a minimal Bash-it fixture; they do not certify every Bash-it
+plugin on every operating system.

@@ -3,4 +3,6 @@
 if [ -n "${BASH_VERSION-}" ] && [ -r "$HOME/.bashrc" ]; then
     . "$HOME/.bashrc"
 fi
-[ -r "$HOME/.profile.local" ] && . "$HOME/.profile.local"
+if [ -r "$HOME/.profile.local" ]; then
+    . "$HOME/.profile.local"
+fi
